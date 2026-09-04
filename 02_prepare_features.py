@@ -119,7 +119,7 @@ out = PROCESSED / "curlew_ml_table.csv"
 tracks[keep].to_csv(out, index=False)
 
 sensitivity = []
-for threshold in [2, 5, 10]:
+for threshold in [0.5, 1, 2, 5, 10]:
     sensitivity.append(
         {
             "speed_threshold_kmh": threshold,
