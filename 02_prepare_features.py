@@ -47,6 +47,12 @@ tracks["latitude"] = pd.to_numeric(tracks["latitude"], errors="coerce")
 tracks = tracks.dropna().drop_duplicates(["bird_id", "timestamp"])
 tracks = tracks.sort_values(["bird_id", "timestamp"]).reset_index(drop=True)
 
+# Keep the first fix in each hour. This keeps the example small and avoids
+# treating dense sampling bursts as independent observations.
+tracks["hour_bin"] = tracks["timestamp"].dt.floor("h")
+tracks = tracks.groupby(["bird_id", "hour_bin"], as_index=False).first()
+tracks = tracks.drop(columns="hour_bin").sort_values(["bird_id", "timestamp"]).reset_index(drop=True)
+
 tracks["prev_lon"] = tracks.groupby("bird_id")["longitude"].shift()
 tracks["prev_lat"] = tracks.groupby("bird_id")["latitude"].shift()
 tracks["prev_time"] = tracks.groupby("bird_id")["timestamp"].shift()
