@@ -33,6 +33,7 @@ FEATURES = [
     "hour_cos",
     "doy_sin",
     "doy_cos",
+    "previous_speed_kmh",
     "bio1",
     "bio12",
     "elevation_m",
