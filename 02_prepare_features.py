@@ -74,7 +74,7 @@ tracks = tracks[tracks["step_speed_kmh"].between(0, 150)].copy()
 
 # This is an operational label for the ML exercise, not a validated behavioural state.
 # The threshold is checked again in the sensitivity output below.
-tracks["active_movement"] = (tracks["step_speed_kmh"] >= 5).astype(int)
+tracks["active_movement"] = (tracks["step_speed_kmh"] >= 0.5).astype(int)
 
 tracks["hour"] = tracks["timestamp"].dt.hour + tracks["timestamp"].dt.minute / 60
 tracks["day_of_year"] = tracks["timestamp"].dt.dayofyear
@@ -119,7 +119,7 @@ out = PROCESSED / "curlew_ml_table.csv"
 tracks[keep].to_csv(out, index=False)
 
 sensitivity = []
-for threshold in [2, 5, 10]:
+for threshold in [0.5, 1, 2, 5, 10]:
     sensitivity.append(
         {
             "speed_threshold_kmh": threshold,
