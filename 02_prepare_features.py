@@ -137,7 +137,10 @@ for threshold in [0.5, 1, 2, 5, 10]:
             "n_rows": len(tracks),
         }
     )
-pd.DataFrame(sensitivity).to_csv(PROCESSED / "movement_threshold_sensitivity.csv", index=False)
+pd.DataFrame(sensitivity).round(6).to_csv(
+    PROCESSED / "movement_threshold_sensitivity.csv",
+    index=False,
+)
 
 print("\nSaved:", out)
 print("Rows:", len(tracks))

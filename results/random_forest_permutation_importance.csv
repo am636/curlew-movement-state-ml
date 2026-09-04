@@ -1,0 +1,11 @@
+feature,importance_mean,importance_sd
+hour_cos,0.023963,0.016055
+previous_speed_kmh,0.016225,0.010203
+latitude,0.014665,0.020582
+longitude,0.009903,0.011072
+hour_sin,0.002613,0.004465
+bio12,0.000817,0.005301
+doy_cos,0.000567,0.003546
+bio1,-0.000714,0.001104
+doy_sin,-0.003293,0.008122
+elevation_m,-0.005566,0.006655
