@@ -50,7 +50,7 @@ Downloads the curlew GPS files from Zenodo and the WorldClim climate/elevation a
 
 ### `02_prepare_features.py`
 
-Reads and orders GPS fixes by bird, calculates step distance and elapsed time, removes very short/long intervals and implausible step speeds, then creates the movement label.
+Reads and orders GPS fixes by bird, keeps the first fix in each hour, calculates step distance and elapsed time, removes very short/long intervals and implausible step speeds, then creates the movement label.
 
 A step is labelled active when its calculated speed is at least **5 km/h**. The script also writes a small sensitivity table for thresholds of 2, 5 and 10 km/h.
 
