@@ -1,12 +1,12 @@
 # Curlew Movement-State Classification
 
-*Python workflow for animal-tracking, spatial environmental data integration, and supervised machine-learning comparison*
+*Code and workflow for movement-state classification in GPS-tracked Eurasian curlews*
 
 ---
 
 ## Overview
 
-This repository classifies active and low-movement steps in public GPS tracks from Eurasian curlews (*Numenius arquata*) using Python. GPS fixes are thinned to one per UTC hour and used to derive spatiotemporal predictors, while WorldClim climate and elevation rasters are sampled at the track locations. Logistic regression, Random Forest, and a small PyTorch neural network are compared using leave-one-bird-out cross-validation.
+This repository classifies active and low-movement steps in public GPS tracks from Eurasian curlews (*Numenius arquata*) using Python. GPS fixes are thinned to one per UTC hour and used to derive spatiotemporal predictors, while WorldClim climate and elevation rasters are sampled at the track locations. Logistic regression, Random Forest, and a PyTorch multilayer perceptron are compared using leave-one-bird-out cross-validation.
 
 The source data contain five curlews tagged in Flanders, Belgium, between 2020 and 2024. Tracks with fewer than 500 valid hourly steps are excluded, which removes one 12-day record. The movement label is defined by a 0.5 km/h step-speed threshold and is an operational classification rather than a validated behavioural state. With four birds in the model evaluation, the performance estimates and feature rankings are descriptive.
 
