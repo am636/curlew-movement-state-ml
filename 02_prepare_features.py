@@ -72,6 +72,15 @@ tracks["step_speed_kmh"] = tracks["step_km"] / tracks["dt_hours"]
 tracks = tracks[tracks["dt_hours"].between(5 / 60, 6)].copy()
 tracks = tracks[tracks["step_speed_kmh"].between(0, 150)].copy()
 
+# Keep birds with enough valid hourly observations for grouped model evaluation.
+bird_counts = tracks.groupby("bird_id").size()
+keep_birds = bird_counts[bird_counts >= 500].index
+tracks = tracks[tracks["bird_id"].isin(keep_birds)].copy()
+
+# Recent movement is available at prediction time and is useful temporal context.
+tracks["previous_speed_kmh"] = tracks.groupby("bird_id")["step_speed_kmh"].shift()
+tracks = tracks.dropna(subset=["previous_speed_kmh"]).copy()
+
 # This is an operational label for the ML exercise, not a validated behavioural state.
 # The threshold is checked again in the sensitivity output below.
 tracks["active_movement"] = (tracks["step_speed_kmh"] >= 0.5).astype(int)
@@ -110,6 +119,7 @@ keep = [
     "hour_cos",
     "doy_sin",
     "doy_cos",
+    "previous_speed_kmh",
     "bio1",
     "bio12",
     "elevation_m",
