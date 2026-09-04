@@ -1,4 +1,4 @@
-name: threshold check
+name: final pipeline check
 
 on:
   pull_request:
@@ -6,13 +6,16 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install numpy pandas rasterio
+      - run: pip install -r requirements.txt
       - run: python 01_download_data.py
       - run: python 02_prepare_features.py
+      - run: python 03_train_compare_models.py
+      - run: python 04_map_and_diagnostics.py
       - run: cat data/processed/movement_threshold_sensitivity.csv
+      - run: cat outputs/tables/model_metrics.csv
