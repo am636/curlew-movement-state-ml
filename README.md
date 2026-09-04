@@ -50,7 +50,7 @@ Downloads the curlew GPS files from Zenodo and the WorldClim climate/elevation a
 
 ### `02_prepare_features.py`
 
-Reads and orders GPS fixes by bird, keeps the first fix in each hour, calculates step distance and elapsed time, removes very short/long intervals and implausible step speeds, then creates the movement label.
+Reads and orders GPS fixes by bird, keeps the first fix in each hour, calculates step distance and elapsed time, removes very short/long intervals and implausible step speeds, then creates the movement label. Birds with fewer than 500 valid hourly observations are excluded from grouped model evaluation.
 
 A step is labelled active when its calculated speed is at least **0.5 km/h**. This gives a less extreme class imbalance after hourly thinning while still separating very low movement from clearer displacement. The script also writes a sensitivity table for thresholds of 0.5, 1, 2, 5 and 10 km/h.
 
@@ -59,6 +59,7 @@ The predictors are deliberately limited to variables that do not directly contai
 - longitude and latitude;
 - time of day represented as sine/cosine terms;
 - day of year represented as sine/cosine terms;
+- speed of the previous valid step;
 - WorldClim BIO1;
 - WorldClim BIO12;
 - elevation.
@@ -94,6 +95,20 @@ The main limitations are:
 - location itself can be informative, so good predictive performance should not be interpreted as evidence of a causal environmental relationship.
 
 The grouped validation and calibration checks are included because repeated observations from the same animal can otherwise give an overly optimistic view of model performance.
+
+## Example result from the full run
+
+The tested pipeline retained **61,903 hourly observations from four birds** after QA and the minimum-track-length rule. About **18.1%** of observations were labelled active at the 0.5 km/h threshold.
+
+Leave-one-bird-out results were deliberately modest:
+
+| Model | Balanced accuracy | ROC-AUC | PR-AUC | F1 |
+| --- | ---: | ---: | ---: | ---: |
+| Logistic regression | 0.565 | 0.578 | 0.256 | 0.314 |
+| Random Forest | 0.567 | 0.605 | 0.257 | 0.335 |
+| PyTorch MLP | 0.573 | 0.592 | 0.259 | 0.323 |
+
+These results are useful precisely because they are not presented as a success story. With only broad climate, location, time and recent movement context, the operational movement label is only moderately predictable across individuals.
 
 ## Repository structure
 
