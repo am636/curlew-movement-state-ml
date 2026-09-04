@@ -1,0 +1,19 @@
+name: pipeline smoke test
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python 01_download_data.py
+      - run: python 02_prepare_features.py
+      - run: python 03_train_compare_models.py
+      - run: python 04_map_and_diagnostics.py
