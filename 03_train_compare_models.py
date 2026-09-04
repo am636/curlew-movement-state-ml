@@ -74,7 +74,7 @@ def fit_torch_model(x_train, y_train, x_test):
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
     model.train()
-    for _ in range(30):
+    for _ in range(20):
         for xb, yb in loader:
             optimizer.zero_grad()
             loss = loss_fn(model(xb), yb)
@@ -128,7 +128,7 @@ for fold, (train_idx, test_idx) in enumerate(cv.split(X, y, groups), start=1):
     predictions["logistic"][test_idx] = logistic.predict_proba(x_test_scaled)[:, 1]
 
     forest = RandomForestClassifier(
-        n_estimators=300,
+        n_estimators=200,
         min_samples_leaf=5,
         class_weight="balanced",
         random_state=42,
